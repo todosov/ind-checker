@@ -1,0 +1,26 @@
+{
+  "bookableSlot": {
+    "key": "f2690e282c330f3800c2808446495c51",
+    "date": "2022-10-21",
+    "startTime": "11:06",
+    "endTime": "11:13",
+    "parts": 1,
+    "booked": false
+  },
+  "appointment": {
+    "productKey": "DOC",
+    "date": "2022-10-21",
+    "startTime": "11:06",
+    "endTime": "11:13",
+    "email": "test@email.com",
+    "phone": "0837452998",
+    "language": "en",
+    "customers": [
+      {
+        "vNumber": "123456789",
+        "firstName": "Voornaam",
+        "lastName": "Achternaam"
+      }
+    ]
+  }
+}

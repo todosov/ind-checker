@@ -1,0 +1,52 @@
+plugins {
+	id 'org.springframework.boot' version '2.7.1'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'java'
+	id 'com.google.cloud.tools.jib' version '3.2.1'
+}
+
+group = 'com.otodosov'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+targetCompatibility = '17'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation files("lombok.config")
+	compileOnly("org.projectlombok:lombok")
+	annotationProcessor("org.projectlombok:lombok")
+
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation("org.springframework.boot:spring-boot-starter-web")
+	implementation 'org.springframework.boot:spring-boot-starter'
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+
+	implementation 'org.apache.httpcomponents:httpclient:4.5.10'
+	implementation 'org.awaitility:awaitility:3.1.2'
+
+	implementation("org.mapstruct:mapstruct:1.5.2.Final")
+	annotationProcessor("org.mapstruct:mapstruct-processor:1.5.2.Final")
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+jib {
+	from {
+		image = "openjdk:17-slim"
+	}
+
+	to {
+		image = 'otodosov/ind-checker'
+		auth {
+			username = 'alextod.zp@gmail.com'
+			password = 'tadasyan1994'
+		}
+	}
+}
