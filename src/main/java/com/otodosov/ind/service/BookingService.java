@@ -20,21 +20,26 @@ public class BookingService {
   private final EmailService emailService;
 
   private final String EMAIL_TEXT_TEMPLATE = "Appointment has been made! Appointment code: %s, date: %s, startTime: %s, endTime: %s";
+  private final String FAILED_EMAIL_TEXT_TEMPLATE = "Error occurred during booking. Booking failed!";
 
   public void bookAppointment(CheckResponse.ResponseData responseData) {
     BookingRequest body = buildRequest(responseData);
-    BookingResponse bookingResponse = restService.performPostRequest(
-        properties.getInd().getBookingUrl(),
-        body,
-        BookingResponse.class);
+    try {
+      BookingResponse bookingResponse = restService.performPostRequest(
+          properties.getInd().getBookingUrl(),
+          body,
+          BookingResponse.class);
 
-    emailService.sendEmail(
-        String.format(
-            EMAIL_TEXT_TEMPLATE,
-            bookingResponse.getData().getCode(),
-            bookingResponse.getData().getDate(),
-            bookingResponse.getData().getStartTime(),
-            bookingResponse.getData().getEndTime()));
+      emailService.sendEmail(
+          String.format(
+              EMAIL_TEXT_TEMPLATE,
+              bookingResponse.getData().getCode(),
+              bookingResponse.getData().getDate(),
+              bookingResponse.getData().getStartTime(),
+              bookingResponse.getData().getEndTime()));
+    } catch (Exception e) {
+      emailService.sendEmail(FAILED_EMAIL_TEXT_TEMPLATE);
+    }
   }
 
   private BookingRequest buildRequest(CheckResponse.ResponseData responseData) {
